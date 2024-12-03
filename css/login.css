@@ -1,0 +1,40 @@
+:root {
+    /* Variável para a cor do texto, usada para manter consistência */
+    --color-text:#381EF7;
+  }
+  
+  html,body {
+    /* Define a fonte padrão como 'Open Sans' com fallback 'serif' */
+    /* Tamanho de fonte 14px e peso de fonte leve (300) para todo o documento */
+    font-family: 'Open Sans', serif;
+    font-size: 14px;
+    font-weight: 300;
+  }
+  
+  .hero.is-success {
+    /* Aplica um fundo em gradiente no elemento com a classe .hero.is-success */
+    /* O gradiente vai de azul escuro (#004A8D) para azul claro (#98c4ec) */
+    background: linear-gradient(to top left, #004A8D, #98c4ec);
+  }
+  
+  .hero .nav, .hero.is-success .nav {
+    /* Remove a sombra dos elementos nav dentro de .hero e .hero.is-success */
+    /* Isso cria um design mais plano e limpo */
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  
+  input {
+    /* Define um peso de fonte leve (300) para todos os inputs */
+    font-weight: 300;
+  }
+  
+  input.input.is-large::placeholder {
+    /* Aplica a cor definida na variável --color-text para o placeholder */
+    color: var(--color-text);
+  }
+  
+  p {
+    /* Define um peso de fonte negrito (700) para os parágrafos, dando mais destaque */
+    font-weight: 700;
+  }
