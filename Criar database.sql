@@ -21,6 +21,7 @@ CREATE TABLE usuario (
     rua_num VARCHAR(10) NOT NULL,
     complemento VARCHAR(255),
     senha VARCHAR(255) NOT NULL
+    adm BOOLEAN NOT NULL
 );
 
 -- Adicionando índices para melhorar a performance em campos com buscas frequentes
