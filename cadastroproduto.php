@@ -1,10 +1,10 @@
 <?php
 session_start();
+include('conexao.php'); // Inclui a configuração do banco
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 
 <head>
     <meta charset="UTF-8">
@@ -89,7 +89,21 @@ session_start();
                                 <div class="field">
                                     <label class="label">Categoria</label>
                                     <div class="control">
-                                        <input type="text" name="categoria" class="input" placeholder="Ex: Eletrônicos" required>
+                                        <div class="select is-fullwidth">
+                                            <select name="categoria" required>
+                                                <option value="" disabled selected>Selecione uma categoria...</option>
+                                                <?php
+                                                // Consulta para obter categorias únicas do banco
+                                                $query = "SELECT DISTINCT categoria FROM produtos";
+                                                $resultado = mysqli_query($conexao, $query);
+
+                                                // Adiciona cada categoria como uma opção no combo box
+                                                while ($linha = mysqli_fetch_assoc($resultado)) {
+                                                    echo '<option value="' . htmlspecialchars($linha['categoria']) . '">' . htmlspecialchars($linha['categoria']) . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
