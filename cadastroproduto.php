@@ -5,11 +5,12 @@ session_start();
 <!DOCTYPE html>
 <html lang="pt-BR">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produto</title>
-    <!-- Importação do Bulma -->
+    <!-- ImportaÃ§Ã£o do Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <!-- Estilo personalizado -->
     <style>
@@ -72,14 +73,14 @@ session_start();
                         <div class="box">
                             <form action="cadastrar_produto.php" method="POST">
                                 <div class="field">
-                                    <label class="label">Descrição do Produto</label>
+                                    <label class="label">DescriÃ§Ã£o do Produto</label>
                                     <div class="control">
                                         <input type="text" name="descricao" class="input" placeholder="Ex: Notebook Gamer" required>
                                     </div>
                                 </div>
 
                                 <div class="field">
-                                    <label class="label">Código de Item</label>
+                                    <label class="label">CÃ³digo de Item</label>
                                     <div class="control">
                                         <input type="text" name="codigo_item" class="input" placeholder="Ex: 12345" required>
                                     </div>
@@ -88,7 +89,7 @@ session_start();
                                 <div class="field">
                                     <label class="label">Categoria</label>
                                     <div class="control">
-                                        <input type="text" name="categoria" class="input" placeholder="Ex: Eletrônicos" required>
+                                        <input type="text" name="categoria" class="input" placeholder="Ex: EletrÃ´nicos" required>
                                     </div>
                                 </div>
 
@@ -105,8 +106,8 @@ session_start();
                                         <div class="select is-fullwidth">
                                             <select name="disponibilidade" required>
                                                 <option value="" disabled selected>Selecione...</option>
-                                                <option value="Disponível">Disponível</option>
-                                                <option value="Indisponível">Indisponível</option>
+                                                <option value="DisponÃ­vel">DisponÃ­vel</option>
+                                                <option value="IndisponÃ­vel">IndisponÃ­vel</option>
                                             </select>
                                         </div>
                                     </div>
