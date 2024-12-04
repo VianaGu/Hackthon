@@ -1,0 +1,9 @@
+CREATE TABLE historico (
+	id INT auto_increment PRIMARY KEY,
+    id_Item int,
+    id_Usuario int,
+    data_retirada int,
+    foreign key	(id_Item) REFERENCES itens (id),
+    foreign key	(id_Usuario) REFERENCES usuario (id),
+    foreign key (data_retirada) REFERENCES retiradas (id)
+);
