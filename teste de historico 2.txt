@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Histórico de Aluguel</title>
+</head>
+<body>
+
+    <h2>Consulta de Histórico de Aluguel</h2>
+
+    <!-- Formulário para receber o código do item -->
+    <form action="pagina.php" method="POST">
+        <label for="codigo_item">Digite o código do item:</label>
+        <input type="text" id="codigo_item" name="codigo_item" required>
+        <button type="submit">Consultar</button>
+    </form>
+
+    <?php
+    // Verificar se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['codigo_item'])) {
+        // Detalhes de conexão com o banco de dados
+        $servername = "localhost";    // Endereço do servidor (geralmente localhost)
+        $username = "root";           // Nome de usuário do banco de dados (ajuste conforme seu ambiente)
+        $password = "";               // Senha do banco de dados (ajuste conforme seu ambiente)
+        $dbname = "meu_banco";        // Nome do banco de dados (ajuste conforme seu ambiente)
+
+        // Criar conexão com o banco de dados
+        $conexao = new mysqli($servername, $username, $password, $dbname);
+
+        // Verificar se a conexão foi bem-sucedida
+        if ($conexao->connect_error) {
+            die("Falha na conexão: " . $conexao->connect_error);
+        }
+
+        // Pegar o código do item enviado via POST
+        $codigo_item = $_POST['codigo_item'];
+
+        // Consulta SQL para buscar o id do item com base no código
+        $sql_item = "SELECT id FROM itens WHERE codigo_item = ?";
+        if ($stmt_item = $conexao->prepare($sql_item)) {
+            // Vincular o parâmetro para a consulta preparada
+            $stmt_item->bind_param("i", $codigo_item); // "i" para integer
+
+            // Executar a consulta
+            $stmt_item->execute();
+
+            // Obter o resultado
+            $result_item = $stmt_item->get_result();
+
+            // Verificar se o código do item existe no banco
+            if ($result_item->num_rows > 0) {
+                // Obter o id do item
+                $item = $result_item->fetch_assoc();
+                $id_item = $item['id'];
+
+                // Consulta SQL para buscar os usuários que alugaram o item
+                $sql_historico = "
+                    SELECT u.usuario, u.email 
+                    FROM historico h
+                    JOIN usuario u ON h.id_Usuario = u.id
+                    WHERE h.id_Item = ?
+                ";
+
+                // Preparar e executar a consulta do histórico
+                if ($stmt_historico = $conexao->prepare($sql_historico)) {
+                    // Vincular o parâmetro para a consulta preparada
+                    $stmt_historico->bind_param("i", $id_item); // "i" para integer
+
+                    // Executar a consulta
+                    $stmt_historico->execute();
+
+                    // Obter o resultado
+                    $result_historico = $stmt_historico->get_result();
+
+                    // Exibir os resultados
+                    if ($result_historico->num_rows > 0) {
+                        echo "<h3>Usuários que alugaram o item com código $codigo_item:</h3>";
+
+                        // Exibir os resultados (usuários que alugaram o item)
+                        while ($row = $result_historico->fetch_assoc()) {
+                            echo "Usuário: " . $row["usuario"] . "<br>";
+                            echo "E-mail: " . $row["email"] . "<br><br>";
+                        }
+                    } else {
+                        echo "Nenhum usuário alugou o item com código $codigo_item.";
+                    }
+
+                    // Fechar a declaração de histórico
+                    $stmt_historico->close();
+                } else {
+                    echo "Erro na consulta de histórico: " . $conexao->error;
+                }
+            } else {
+                echo "Nenhum item encontrado com o código $codigo_item.";
+            }
+
+            // Fechar a declaração do item
+            $stmt_item->close();
+        } else {
+            echo "Erro na consulta do item: " . $conexao->error;
+        }
+
+        // Fechar a conexão com o banco de dados
+        $conexao->close();
+    }
+    ?>
+
+</body>
+</html>
