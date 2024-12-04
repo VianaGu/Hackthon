@@ -20,14 +20,21 @@ $result = $conexao->query($sql);
 </style>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Lista de Itens</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
 </head>
+
 <body>
     <section class="section">
         <div class="container">
             <h1 class="title has-text-white">Lista de Itens</h1>
+
+            <!-- Botão de Adicionar Novo Item -->
+            <a href="adicionar_item.php" class="button is-primary mb-4">Entrada Item</a>
+
+            <!-- Tabela com Itens -->
             <table class="table is-striped is-fullwidth">
                 <thead>
                     <tr>
@@ -50,11 +57,11 @@ $result = $conexao->query($sql);
                             echo "<td>" . htmlspecialchars($row["quantidade"]) . "</td>";
                             echo "<td>" . ($row["disponibilidade"] ? "Sim" : "Não") . "</td>"; // Disponibilidade
                             echo "<td>
-                                <form method='POST' action='./retirar_item.php'>
-                                    <input type='hidden' name='id' value='" . $row["id"] . "'>
-                                    <button class='button is-danger is-small' type='submit'>Retirar</button>
-                                </form>
-                              </td>";
+                            <form method='POST' action='./retirar_item.php'>
+                                <input type='hidden' name='id' value='" . $row["id"] . "'>
+                                <button class='button is-danger is-small' type='submit'>Retirar</button>
+                            </form>
+                          </td>";
                             echo "</tr>";
                         }
                     } else {
@@ -67,4 +74,5 @@ $result = $conexao->query($sql);
         </div>
     </section>
 </body>
+
 </html>
