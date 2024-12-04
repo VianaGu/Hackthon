@@ -1,5 +1,6 @@
 <?php
 include('conexao.php');
+include('verificaLogin.php');
 
 // Verifica se o ID foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
