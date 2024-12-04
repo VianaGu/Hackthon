@@ -56,7 +56,7 @@ $itens_result = $conexao->query($itens_sql);
 <html>
 
 <head>
-    <title>Adicionar Item</title>
+    <title>Devolução Item</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
     <style>
@@ -69,7 +69,7 @@ $itens_result = $conexao->query($itens_sql);
 <body>
     <section class="section">
         <div class="container">
-            <h1 class="title has-text-white">Adicionar Item</h1>
+            <h1 class="title has-text-white">Devolução Item</h1>
             <form method="POST" action="adicionar_item.php">
 
                 <!-- Campo de Código do Produto -->
@@ -114,7 +114,7 @@ $itens_result = $conexao->query($itens_sql);
 
                 <div class="field">
                     <div class="control">
-                        <button class="button is-primary" type="submit">Adicionar Item</button>
+                        <button class="button is-primary" type="submit">Devolver Item</button>
                     </div>
                 </div>
             </form>

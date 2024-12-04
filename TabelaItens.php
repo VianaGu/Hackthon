@@ -33,7 +33,7 @@ $result = $conexao->query($sql);
             <h1 class="title has-text-white">Lista de Itens</h1>
 
             <!-- Botão de Adicionar Novo Item -->
-            <a href="adicionar_item.php" class="button is-primary mb-4">Entrada Item</a>
+            <a href="adicionar_item.php" class="button is-primary mb-4">Adicionar Item</a>
 
             <!-- Tabela com Itens -->
             <table class="table is-striped is-fullwidth">
@@ -61,10 +61,7 @@ $result = $conexao->query($sql);
                             echo "<td>" . htmlspecialchars($row["quantidade"]) . "</td>";
                             echo "<td>" . $disponibilidade . "</td>"; // Disponibilidade com base na quantidade
                             echo "<td>
-                            <form method='POST' action='./retirar_item.php'>
-                                <input type='hidden' name='id' value='" . $row["id"] . "'>
-                                <button class='button is-danger is-small' type='submit'>Retirar</button>
-                            </form>
+                            <a href='retirar_item.php?id=" . $row["id"] . "' class='button is-danger is-small'>Retirar</a>
                           </td>";
                             echo "</tr>";
                         }
