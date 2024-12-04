@@ -1,5 +1,6 @@
 <?php
 include('conexao.php');
+include('verificaLogin.php');
 
 // Query para buscar os itens com o nome da categoria
 $sql = "
@@ -50,12 +51,15 @@ $result = $conexao->query($sql);
                     <?php
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
+                            // Verifica a disponibilidade com base na quantidade
+                            $disponibilidade = $row["quantidade"] > 0 ? "Disponível" : "Indisponível";
+
                             echo "<tr>";
                             echo "<td>" . str_pad($row["id"], 4, "0", STR_PAD_LEFT) . "</td>"; // Código formatado com 4 dígitos
                             echo "<td>" . htmlspecialchars($row["descricao"]) . "</td>";
                             echo "<td>" . htmlspecialchars($row["nome_categoria"]) . "</td>"; // Nome da categoria
                             echo "<td>" . htmlspecialchars($row["quantidade"]) . "</td>";
-                            echo "<td>" . ($row["disponibilidade"] ? "Sim" : "Não") . "</td>"; // Disponibilidade
+                            echo "<td>" . $disponibilidade . "</td>"; // Disponibilidade com base na quantidade
                             echo "<td>
                             <form method='POST' action='./retirar_item.php'>
                                 <input type='hidden' name='id' value='" . $row["id"] . "'>
