@@ -1,7 +1,7 @@
 <?php
 session_start();
+include('verificaLogin.php');
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
