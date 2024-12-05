@@ -25,10 +25,11 @@ if (isset($_GET['id'])) {
 }
 
 // Processa a retirada quando o formulário for enviado
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome']) && isset($_POST['endereco']) && isset($_POST['telefone'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['endereco'], $_POST['telefone'], $_POST['data_prevista_entrega'])) {
     $nome = $_POST['nome'];
     $endereco = $_POST['endereco'];
     $telefone = $_POST['telefone'];
+    $data_prevista_entrega = $_POST['data_prevista_entrega'];
 
     // Verifica a quantidade do item
     $sql_check = "SELECT quantidade FROM itens WHERE id = ?";
@@ -50,10 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome']) && isset($_PO
         $stmt_update->close();
 
         // Registra a retirada na tabela 'retiradas'
-        $sql_retirada = "INSERT INTO retiradas (item_id, nome, endereco, telefone, data_retirada) 
-                         VALUES (?, ?, ?, ?, NOW())";
+        $sql_retirada = "INSERT INTO retiradas (item_id, nome, endereco, telefone, data_retirada, data_prevista_entrega) 
+                         VALUES (?, ?, ?, ?, NOW(), ?)";
         $stmt_retirada = $conexao->prepare($sql_retirada);
-        $stmt_retirada->bind_param("isss", $id_item, $nome, $endereco, $telefone);
+        $stmt_retirada->bind_param("issss", $id_item, $nome, $endereco, $telefone, $data_prevista_entrega);
 
         if ($stmt_retirada->execute()) {
             echo "Item retirado com sucesso!";
@@ -77,6 +78,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome']) && isset($_PO
 </style>
 <!DOCTYPE html>
 <html lang="en">
+<script>
+    function formatarCelular(input) {
+        // Remove todos os caracteres não numéricos
+        let numero = input.value.replace(/\D/g, '');
+
+        // Adiciona parênteses e hífen conforme a digitação
+        if (numero.length > 0) {
+            numero = '(' + numero;
+        }
+        if (numero.length > 3) {
+            numero = numero.slice(0, 3) + ') ' + numero.slice(3);
+        }
+        if (numero.length > 10) {
+            numero = numero.slice(0, 10) + '-' + numero.slice(10);
+        }
+
+        // Atualiza o valor do input
+        input.value = numero;
+    }
+</script>
 
 <head>
     <meta charset="UTF-8">
@@ -95,21 +116,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome']) && isset($_PO
                 <div class="field">
                     <label class="label">Nome do Retirante</label>
                     <div class="control">
-                        <input class="input" type="text" name="nome" placeholder="Digite seu nome" required>
+                        <input autocomplete="off" class="input" type="text" name="nome" placeholder="Digite seu nome" required>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Endereço</label>
                     <div class="control">
-                        <input class="input" type="text" name="endereco" placeholder="Digite seu endereço" required>
+                        <input autocomplete="off" class="input" type="text" name="endereco" placeholder="Digite seu endereço" required>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Telefone</label>
                     <div class="control">
-                        <input class="input" type="text" name="telefone" placeholder="Digite seu telefone" required>
+                        <input autocomplete="off" class="input" type="text" name="telefone" placeholder="Digite seu telefone" oninput="formatarCelular(this)" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Data Prevista de Entrega</label>
+                    <div class="control">
+                        <input autocomplete="off" class="input" type="date" name="data_prevista_entrega" required>
                     </div>
                 </div>
 
