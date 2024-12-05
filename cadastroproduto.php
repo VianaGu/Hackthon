@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('conexao.php'); // Conexão com o banco de dados
+// include('conexao.php'); // Desabilitado temporariamente para testes
 ?>
 
 <!DOCTYPE html>
@@ -32,21 +32,22 @@ include('conexao.php'); // Conexão com o banco de dados
         }
 
         .button.is-fullwidth {
-            background: linear-gradient(135deg, #0072ff, #00c4a7);
-            color: #fff;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        }
+    background: linear-gradient(135deg, #0072ff, #00c4a7); /* Gradiente suave laranja/rosado */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* Arredondamento suave */
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para efeito 3D */
+}
 
-        .button.is-fullwidth:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #00c4a7, #0072ff);
-            color: #fff;
-        }
+.button.is-fullwidth:hover {
+    transform: scale(1.05); /* Leve aumento no hover */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3); /* Sombra mais profunda */
+    background: linear-gradient(135deg, #00c4a7, #0072ff); /* Gradiente invertido no hover */
+    color: #fff;
+}
+
 
         .is-success {
             background-color: #00c4a7 !important;
@@ -77,15 +78,6 @@ include('conexao.php'); // Conexão com o banco de dados
                     <div class="column is-5">
                         <h1 class="title has-text-centered">Cadastro de Produto</h1>
                         <?php
-                        if (isset($_SESSION['sucesso'])):
-                        ?>
-                            <div class="notification is-success">
-                                <p><?php echo $_SESSION['sucesso']; ?></p>
-                            </div>
-                        <?php
-                        unset($_SESSION['sucesso']);
-                        endif;
-
                         if (isset($_SESSION['erro'])):
                         ?>
                             <div class="notification is-danger">
@@ -96,7 +88,7 @@ include('conexao.php'); // Conexão com o banco de dados
                         endif;
                         ?>
                         <div class="box">
-                            <form action="" method="POST" enctype="multipart/form-data">
+                            <form action="cadastrar_produto.php" method="POST" enctype="multipart/form-data">
                                 <div class="field">
                                     <label class="label">Descrição do Produto</label>
                                     <div class="control">
@@ -110,6 +102,7 @@ include('conexao.php'); // Conexão com o banco de dados
                                         <div class="select is-fullwidth">
                                             <select name="categoria" required>
                                                 <option value="" disabled selected>Selecione uma categoria...</option>
+                                                <!-- Valores fixos temporários para testes -->
                                                 <option value="Eletrônicos">Eletrônicos</option>
                                                 <option value="Móveis">Móveis</option>
                                                 <option value="Vestuário">Vestuário</option>
@@ -207,36 +200,3 @@ include('conexao.php'); // Conexão com o banco de dados
 </body>
 
 </html>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $descricao = mysqli_real_escape_string($conexao, $_POST['descricao']);
-    $categoria = mysqli_real_escape_string($conexao, $_POST['categoria']);
-    $quantidade = (int) $_POST['quantidade'];
-    $disponibilidade = mysqli_real_escape_string($conexao, $_POST['disponibilidade']);
-
-    if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
-        $imagemTmp = $_FILES['imagem']['tmp_name'];
-        $imagemNome = basename($_FILES['imagem']['name']);
-        $diretorioDestino = 'uploads/' . $imagemNome;
-
-        if (move_uploaded_file($imagemTmp, $diretorioDestino)) {
-            $sql = "INSERT INTO itens (descricao, categoria, quantidade, disponibilidade, imagem) 
-                    VALUES ('$descricao', '$categoria', $quantidade, '$disponibilidade', '$diretorioDestino')";
-
-            if (mysqli_query($conexao, $sql)) {
-                $_SESSION['sucesso'] = "Produto cadastrado com sucesso!";
-            } else {
-                $_SESSION['erro'] = "Erro ao cadastrar o produto: " . mysqli_error($conexao);
-            }
-        } else {
-            $_SESSION['erro'] = "Erro ao fazer upload da imagem.";
-        }
-    } else {
-        $_SESSION['erro'] = "Nenhuma imagem foi enviada ou ocorreu um erro no envio.";
-    }
-
-    header('Location: cadastro_produto.php');
-    exit();
-}
-?>
