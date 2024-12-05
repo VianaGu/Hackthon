@@ -1,5 +1,6 @@
 <?php
 include('conexao.php');
+include('verificaLogin.php');
 
 if (isset($_GET['codigo'])) {
     $codigo = $_GET['codigo'];
