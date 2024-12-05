@@ -33,7 +33,9 @@ $result = $conexao->query($sql);
             <h1 class="title has-text-white">Lista de Itens</h1>
 
             <!-- Botão de Adicionar Novo Item -->
-            <a href="adicionar_item.php" class="button is-primary mb-4">Adicionar Item</a>
+            <a href="adicionar_item.php" class="button is-primary mb-4">Devolver Item</a>
+             <!-- Botão de Adicionar Novo Item -->
+             <a href="home.php" class="button is-primary mb-4">Home</a>
 
             <!-- Tabela com Itens -->
             <table class="table is-striped is-fullwidth">
@@ -73,7 +75,9 @@ $result = $conexao->query($sql);
                 </tbody>
             </table>
         </div>
+        
     </section>
+    
 </body>
 
 </html>
