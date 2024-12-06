@@ -222,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             if (mysqli_query($conexao, $query)) {
                 $_SESSION['sucesso'] = 'Produto cadastrado com sucesso!';
-                header('Location: cadastro_produto.php');  // Redireciona para o formulário ou página de sucesso
+                header('Location: cadastroproduto.php');  // Redireciona para o formulário ou página de sucesso
             } else {
                 $_SESSION['erro'] = 'Erro ao cadastrar o produto: ' . mysqli_error($conexao);
             }
