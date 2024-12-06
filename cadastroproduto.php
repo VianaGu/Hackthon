@@ -1,5 +1,4 @@
 <?php
-session_start();
 include('conexao.php');
 ?>
 
@@ -87,7 +86,7 @@ include('conexao.php');
                         endif;
                         ?>
                         <div class="box">
-                        <form action="cadastrar_produto.php" method="POST" enctype="multipart/form-data">
+                        <form action="cadastroproduto.php" method="POST" enctype="multipart/form-data">
                                 <div class="field">
                                     <label class="label">Descrição do Produto</label>
                                     <div class="control">
@@ -140,7 +139,7 @@ include('conexao.php');
                             <label class="label">Imagem do Produto</label>
                             <div class="file has-name is-fullwidth">
                                 <label class="file-label">
-                                    <input class="file-input" type="file" name="imagem" accept="image/*" id="imageInput" required>
+                                    <input class="file-input" type="file" name="imagem" accept="image/*" id="imageInput" >
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
