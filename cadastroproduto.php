@@ -82,18 +82,18 @@
                                 </div>
 
                                 <div class="field">
-                                    <label class="label">Categoria</label>
-                                    <div class="control">
-                                        <div class="select is-fullwidth">
-                                            <select name="categoria" required>
-                                                <option value="" disabled selected>Selecione uma categoria...</option>
-                                                <option value="Eletrônicos">Eletrônicos</option>
-                                                <option value="Móveis">Móveis</option>
-                                                <option value="Vestuário">Vestuário</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+    <label class="label">Categoria</label>
+    <div class="control">
+        <div class="select is-fullwidth">
+            <select name="categoria" required>
+                <option value="" disabled selected>Selecione uma categoria...</option>
+                <?php while ($categoria = mysqli_fetch_assoc($resultCategorias)): ?>
+                    <option value="<?= $categoria['id']; ?>"><?= $categoria['nome']; ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+    </div>
+</div>
 
                                 <div class="field">
                                     <label class="label">Quantidade</label>
@@ -192,6 +192,14 @@ session_start();
 ob_start(); // Inicia o buffer de saída
 
 include('conexao.php');
+
+// Busca as categorias no banco de dados
+$sqlCategorias = "SELECT id, nome FROM categorias";
+$resultCategorias = mysqli_query($conexao, $sqlCategorias);
+
+if (!$resultCategorias) {
+    die("Erro ao buscar categorias: " . mysqli_error($conexao));
+}
 
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
