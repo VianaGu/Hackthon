@@ -149,8 +149,9 @@
                                 <button type="submit" class="button is-fullwidth is-large">Cadastrar Produto</button>
                             </div>
                             <div class="has-text-centered">
-                                <a href="menu.php" class="button is-small is-light">Voltar ao Menu</a>
-                            </div>
+    <a href="Hackthon/HomePage/index.html" class="button is-small is-light">Voltar ao Menu</a>
+</div>
+
                         </div>
                     </div>
                 </form>
