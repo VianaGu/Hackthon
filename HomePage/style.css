@@ -1,0 +1,41 @@
+/* Fundo do corpo */
+body {
+    background: linear-gradient(to top left, #004A8D, #98c4ec); /* Gradiente azul */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+/* Hero section (cabeçalho) */
+.hero.is-primary {
+    background-color: #1565c0 !important; /* Azul mais escuro */
+    background: #000000;
+}
+
+.h1 {
+    background: #000000;
+}
+
+/* Centralizando o container principal */
+.container {
+    margin-top: 50px;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo da imagem */
+.image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* Botões centralizados */
+.buttons.is-centered {
+    justify-content: center;
+}
+
+
+
