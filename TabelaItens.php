@@ -2,14 +2,15 @@
 include('conexao.php');
 include('verificaLogin.php');
 
-// Query para buscar os itens com o nome da categoria
+// Query para buscar os itens com o nome da categoria e imagem
 $sql = "
 SELECT 
     itens.id, 
     itens.descricao, 
     categoria.categoria AS nome_categoria, 
     itens.quantidade, 
-    itens.disponibilidade 
+    itens.disponibilidade,
+    itens.imagem
 FROM itens
 INNER JOIN categoria ON itens.categoria = categoria.id";
 $result = $conexao->query($sql);
@@ -17,6 +18,12 @@ $result = $conexao->query($sql);
 <style>
     body {
         background: linear-gradient(to top left, #004A8D, #98c4ec);
+    }
+
+    .item-image {
+        max-width: 100px;
+        max-height: 100px;
+        object-fit: contain;
     }
 </style>
 <!DOCTYPE html>
@@ -35,7 +42,9 @@ $result = $conexao->query($sql);
             <!-- Botão de Adicionar Novo Item -->
             <a href="adicionar_item.php" class="button is-primary mb-4">Devolver Item</a>
              <!-- Botão de Adicionar Novo Item -->
-             <a href="home.php" class="button is-primary mb-4">Home</a>
+             <a href="historico.php" class="button is-primary mb-4">Histórico</a>
+             <!-- Botão de Adicionar Novo Item -->
+             <a href="HomePage/index.html" class="button is-primary mb-4">Home</a>
 
             <!-- Tabela com Itens -->
             <table class="table is-striped is-fullwidth">
@@ -46,6 +55,7 @@ $result = $conexao->query($sql);
                         <th>Categoria</th>
                         <th>Quantidade</th>
                         <th>Disponibilidade</th>
+                        <th>Imagem</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -62,13 +72,20 @@ $result = $conexao->query($sql);
                             echo "<td>" . htmlspecialchars($row["nome_categoria"]) . "</td>"; // Nome da categoria
                             echo "<td>" . htmlspecialchars($row["quantidade"]) . "</td>";
                             echo "<td>" . $disponibilidade . "</td>"; // Disponibilidade com base na quantidade
+                            echo "<td>";
+                            if (!empty($row["imagem"])) {
+                                echo "<img src='" . htmlspecialchars($row["imagem"]) . "' alt='Imagem do item' class='item-image'>";
+                            } else {
+                                echo "Sem imagem";
+                            }
+                            echo "</td>";
                             echo "<td>
                             <a href='retirar_item.php?id=" . $row["id"] . "' class='button is-danger is-small'>Retirar</a>
                           </td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='6'>Nenhum item encontrado</td></tr>";
+                        echo "<tr><td colspan='7'>Nenhum item encontrado</td></tr>";
                     }
                     $conexao->close();
                     ?>

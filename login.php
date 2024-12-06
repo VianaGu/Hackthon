@@ -28,7 +28,7 @@ $row = mysqli_num_rows($result);
 
 if ($row == 1) {
     $_SESSION["usuario"] = $usuario;
-    header('location: home/painel.php');
+    header('location: HomePage/index.html');
     exit();
 } else {
     $_SESSION['nao autenticado'] = true;
