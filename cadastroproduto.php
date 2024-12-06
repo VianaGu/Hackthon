@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $imagem = $nomeImagem; // Apenas o nome do arquivo será salvo no banco
     } else {
         $_SESSION['erro'] = 'Erro ao fazer upload da imagem.';
-        header('Location: cadastrar_item.php');
+        header('Location: cadastroproduto.php');
         exit();
     }
 }
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (mysqli_query($conexao, $sql)) {
         $_SESSION['sucesso'] = 'Item cadastrado com sucesso!';
-        header('Location: cadastrar_item.php');
+        header('Location: cadastroproduto.php');
         exit();
     } else {
         $_SESSION['erro'] = 'Erro ao cadastrar o item: ' . mysqli_error($conexao);
@@ -216,7 +216,7 @@ ob_end_flush(); // Finaliza o buffer de saída
                                 <button type="submit" class="button is-fullwidth is-large">Cadastrar Produto</button>
                             </div>
                             <div class="has-text-centered">
-    <a href="Hackthon/HomePage/index.html" class="button is-small is-light">Voltar ao Menu</a>
+    <a href="HomePage/index.html" class="button is-small is-light">Voltar ao Menu</a>
 </div>
 
                         </div>
