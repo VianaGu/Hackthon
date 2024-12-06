@@ -2,7 +2,14 @@
 include('conexao.php');
 include('verificaLogin.php');
 
-// Query para buscar os itens com o nome da categoria e imagem
+// Verifica se uma categoria foi selecionada
+$categoriaFiltro = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+
+// Query para buscar todas as categorias
+$sqlCategorias = "SELECT id, categoria FROM categoria";
+$resultCategorias = $conexao->query($sqlCategorias);
+
+// Query para buscar itens com base no filtro de categoria
 $sql = "
 SELECT 
     itens.id, 
@@ -13,7 +20,17 @@ SELECT
     itens.imagem
 FROM itens
 INNER JOIN categoria ON itens.categoria = categoria.id";
-$result = $conexao->query($sql);
+
+// Adiciona o filtro de categoria se aplicável
+if (!empty($categoriaFiltro)) {
+    $sql .= " WHERE categoria.id = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("i", $categoriaFiltro);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conexao->query($sql);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,14 +50,12 @@ $result = $conexao->query($sql);
             transition: transform 0.2s ease-in-out;
         }
 
-        /* Efeito de zoom ao passar o mouse */
         .item-image:hover {
-            transform: scale(2); /* Amplia a imagem */
+            transform: scale(2);
             position: relative;
-            z-index: 10; /* Garante que a imagem fique acima de outros elementos */
+            z-index: 10;
         }
 
-        /* Ajusta a visualização para manter o layout */
         td {
             position: relative;
         }
@@ -56,6 +71,28 @@ $result = $conexao->query($sql);
             <a href="adicionar_item.php" class="button is-primary mb-4">Devolver Item</a>
             <a href="historico.php" class="button is-primary mb-4">Histórico</a>
             <a href="HomePage/index.html" class="button is-primary mb-4">Home</a>
+
+            <!-- Filtro de Categoria -->
+            <form method="GET" class="mb-4">
+                <div class="field">
+                    <label class="label has-text-white">Filtrar por Categoria:</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="categoria" onchange="this.form.submit()">
+                                <option value="">Todas as Categorias</option>
+                                <?php
+                                if ($resultCategorias->num_rows > 0) {
+                                    while ($row = $resultCategorias->fetch_assoc()) {
+                                        $selected = ($categoriaFiltro == $row['id']) ? 'selected' : '';
+                                        echo "<option value='" . $row['id'] . "' $selected>" . htmlspecialchars($row['categoria']) . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
             <!-- Tabela com Itens -->
             <table class="table is-striped is-fullwidth">
