@@ -1,67 +1,3 @@
-<?php
-session_start();
-ob_start(); // Inicia o buffer de saída
-
-include('conexao.php');
-
-// Busca as categorias no banco de dados
-$sqlCategorias = "SELECT id,categoria FROM categoria";
-$resultCategorias = mysqli_query($conexao, $sqlCategorias);
-
-if (!$resultCategorias) {
-    die("Erro ao buscar categorias: " . mysqli_error($conexao));
-}
-
-// Verifica se o formulário foi enviado
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recupera os dados do formulário
-    $descricao = mysqli_real_escape_string($conexao, $_POST['descricao']);
-    $categoria = (int)$_POST['categoria'];
-    $quantidade = (int)$_POST['quantidade'];
-    
-    // A lógica de disponibilidade deve ser numérica
-    $disponibilidade = $quantidade > 0 ? 1 : 0; // 1 para Disponível, 0 para Indisponível
-    
-    $imagem = null;
-
-    // Processa o upload da imagem
-    if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0) {
-        // Caminho absoluto para a pasta de uploads
-        $pastaDestino = __DIR__ . '/uploads/';
-        $nomeImagem = uniqid() . '-' . $_FILES['imagem']['name'];
-        $caminhoImagem = $pastaDestino . basename($nomeImagem);
-
-        // Verifica se a pasta de uploads existe, se não, tenta criar
-        if (!is_dir($pastaDestino)) {
-            mkdir($pastaDestino, 0777, true); // Cria a pasta se não existir
-        }
-
-        // Move o arquivo para o diretório de uploads
-        if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoImagem)) {
-            $imagem = $caminhoImagem;
-        } else {
-            $_SESSION['erro'] = 'Erro ao fazer upload da imagem.';
-            header('Location: cadastrar_item.php');
-            exit();
-        }
-    }
-
-    // Insere os dados no banco de dados
-    $sql = "INSERT INTO itens (descricao, categoria, quantidade, disponibilidade, imagem) 
-            VALUES ('$descricao', $categoria, $quantidade, $disponibilidade, '$imagem')";
-
-    if (mysqli_query($conexao, $sql)) {
-        $_SESSION['sucesso'] = 'Item cadastrado com sucesso!';
-        header('Location: cadastrar_item.php');
-        exit();
-    } else {
-        $_SESSION['erro'] = 'Erro ao cadastrar o item: ' . mysqli_error($conexao);
-    }
-}
-
-mysqli_close($conexao);
-ob_end_flush(); // Finaliza o buffer de saída
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -152,7 +88,7 @@ ob_end_flush(); // Finaliza o buffer de saída
             <select name="categoria" required>
                 <option value="" disabled selected>Selecione uma categoria...</option>
                 <?php while ($categoria = mysqli_fetch_assoc($resultCategorias)): ?>
-                    <option value="<?= $categoria['id']; ?>"><?= $categoria['categoria']; ?></option>
+                    <option value="<?= $categoria['id']; ?>"><?= $categoria['nome']; ?></option>
                 <?php endwhile; ?>
             </select>
         </div>
@@ -252,3 +188,70 @@ ob_end_flush(); // Finaliza o buffer de saída
 </body>
 
 </html>
+<?php
+session_start();
+ob_start(); // Inicia o buffer de saída
+
+include('conexao.php');
+
+// Busca as categorias no banco de dados
+$sqlCategorias = "SELECT id, nome FROM categorias";
+$resultCategorias = mysqli_query($conexao, $sqlCategorias);
+
+if (!$resultCategorias) {
+    die("Erro ao buscar categorias: " . mysqli_error($conexao));
+}
+
+// Verifica se o formulário foi enviado
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Recupera os dados do formulário
+    $descricao = mysqli_real_escape_string($conexao, $_POST['descricao']);
+    $categoria = (int)$_POST['categoria'];
+    $quantidade = (int)$_POST['quantidade'];
+    
+    // A lógica de disponibilidade deve ser numérica
+    $disponibilidade = $quantidade > 0 ? 1 : 0; // 1 para Disponível, 0 para Indisponível
+    
+    $imagem = null;
+
+    if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0) {
+    // Pega o nome original do arquivo
+    $nomeImagem = basename($_FILES['imagem']['name']); 
+
+    // Caminho absoluto para a pasta de uploads
+    $pastaDestino = __DIR__ . '/uploads/';
+    $caminhoImagem = $pastaDestino . $nomeImagem;
+
+    // Verifica se a pasta de uploads existe, se não, tenta criar
+    if (!is_dir($pastaDestino)) {
+        mkdir($pastaDestino, 0777, true); // Cria a pasta se não existir
+    }
+
+    // Move o arquivo para o diretório de uploads
+    if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoImagem)) {
+        $imagem = $nomeImagem; // Apenas o nome do arquivo será salvo no banco
+    } else {
+        $_SESSION['erro'] = 'Erro ao fazer upload da imagem.';
+        header('Location: cadastrar_item.php');
+        exit();
+    }
+}
+
+
+    // Insere os dados no banco de dados
+    $sql = "INSERT INTO itens (descricao, categoria, quantidade, disponibilidade, imagem) 
+            VALUES ('$descricao', $categoria, $quantidade, $disponibilidade, '$imagem')";
+
+
+    if (mysqli_query($conexao, $sql)) {
+        $_SESSION['sucesso'] = 'Item cadastrado com sucesso!';
+        header('Location: cadastrar_item.php');
+        exit();
+    } else {
+        $_SESSION['erro'] = 'Erro ao cadastrar o item: ' . mysqli_error($conexao);
+    }
+}
+
+mysqli_close($conexao);
+ob_end_flush(); // Finaliza o buffer de saída
+?>
