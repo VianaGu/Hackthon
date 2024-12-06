@@ -1,17 +1,20 @@
 create database hackthon;
+
 use hackthon;
 -- Tabela Itens
-CREATE TABLE itens (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE itens ( 
+    id INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY substitui AUTO_INCREMENT
     descricao VARCHAR(255) NOT NULL,
     codigo_item INT NOT NULL,
     categoria INT NOT NULL,
     quantidade INT NOT NULL,
-    disponibilidade BOOLEAN NOT NULL
+    disponibilidade BIT NOT NULL -- Substituir TINYINT(1) por BIT para valores booleanos
 );
+
+
 -- Tabela Usuario
 CREATE TABLE usuario (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY, -- IDENTITY substitui AUTO_INCREMENT
     email VARCHAR(255) NOT NULL,
     usuario VARCHAR(255) NOT NULL,
     celular VARCHAR(15) NOT NULL,
@@ -20,9 +23,10 @@ CREATE TABLE usuario (
     rua VARCHAR(255) NOT NULL,
     rua_num VARCHAR(10) NOT NULL,
     complemento VARCHAR(255),
-    senha VARCHAR(255) NOT NULL
-    adm BOOLEAN NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    adm BIT NOT NULL -- Substituir BOOLEAN por BIT
 );
+
 
 -- Adicionando índices para melhorar a performance em campos com buscas frequentes
 CREATE INDEX idx_email ON usuario(email);
@@ -33,7 +37,7 @@ CREATE INDEX idx_cpf ON usuario(cpf);
 
 -- Tabela Categoria
 CREATE TABLE categoria (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     categoria VARCHAR(255) NOT NULL
 );
 
