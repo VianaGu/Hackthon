@@ -1,0 +1,8 @@
+# Ignorar a pasta uploads
+/uploads/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos temporários
+*.tmp
