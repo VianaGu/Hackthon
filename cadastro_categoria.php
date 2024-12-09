@@ -34,15 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         body {
             background: linear-gradient(to top left, #004A8D, #98c4ec);
-        }
-
-        .container {
-            max-width: 600px;
-            margin-top: 50px;
-        }
-
-        .button-container {
-            margin-top: 20px;
+            height: 37rem;
         }
     </style>
 </head>

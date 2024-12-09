@@ -147,7 +147,7 @@
 
         <!-- Botão para voltar à lista de itens -->
         <div class="button-container">
-            <a href="lista_itens.php" class="button is-link">Voltar para a Lista de Itens</a>
+            <a href="Tabelaitens.php" class="button is-link">Voltar para a Lista de Itens</a>
         </div>
     </div>
 </body>
