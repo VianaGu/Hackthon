@@ -6,7 +6,7 @@ session_start();
 // Isso significa que o usuário está autenticado e logado
 if(!$_SESSION['usuario']){
     // Se o usuário não estiver autenticado, redireciona para a página inicial (../)
-    header('Location: ../'); // Redireciona o usuário para a página raiz
+    header('Location: ../Hackthon'); // Redireciona o usuário para a página raiz
     exit(); // Encerra a execução do script para garantir que o redirecionamento seja feito
 }
 ?>
