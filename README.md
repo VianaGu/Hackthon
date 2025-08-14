@@ -20,9 +20,6 @@ Este projeto nasceu em uma maratona de uma semana como parte de um desafio acad�
 - CSS  
 - JavaScript  
 
-*(Adicione frameworks, bibliotecas ou outras ferramentas conforme necessário.)*
-
-
 ---
 
 ## 🚀 Como usar (ou executar)
@@ -35,9 +32,8 @@ Este projeto nasceu em uma maratona de uma semana como parte de um desafio acad�
    ```bash
    cd Hackthon
    ```
-3. Abra o arquivo principal no seu editor ou navegador (ex: `index.html` ou o arquivo `.java` principal).
+3. Abra o arquivo principal no seu editor ou navegador (ex: `homePage/index.html).
 
-*(Adapte as instruções conforme o tipo de projeto — se for um site, abra no navegador; se for Java, compile e execute, etc.)*
 
 ---
 
